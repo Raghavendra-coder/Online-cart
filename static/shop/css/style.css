@@ -1,0 +1,15 @@
+.card{
+transition : ease 0.4s;
+}
+.card:hover{
+border : 2px solid green!important;
+}
+
+.image-div{
+ border : 1px solid green;
+ border-radius : 10px;
+}
+
+.details-div{
+
+}
