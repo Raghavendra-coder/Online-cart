@@ -24,7 +24,7 @@
           <span id="divpr{{ product.id }}">
           {% include 'shop/cart-exists.html' %}
           </span>
-          <a href="/shop/product/{{ product.id }}"><button id="vi{{ product.id  }}" class="btn btn-outline-success">View Item</button></a>
+          <a href="{% url 'prodview' myid=product.id %}"><button id="vi{{ product.id  }}" class="btn btn-outline-success">View Item</button></a>
         </div>
       </div>
     </div>
