@@ -9,7 +9,7 @@
         <div class=" mt-5 my-3">
           <h2 style="color: green;">Send Your Enquiry :</h2>
        </div>
-        <form action="/shop/contact" method="Post"> 
+        <form action="{% url 'ContactUs' %}" method="Post">
             {% csrf_token %}
     <div class="col-md-6">
         <label class="form-label"><b>Name</b></label>
