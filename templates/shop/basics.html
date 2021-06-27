@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{% static 'shop/css//style.css' %}">
   <link rel="stylesheet" href="{% static 'shop/css/owl.theme.default.min.css' %}">
      
-       {% block style %} {% endblock %}
+      {% block style %} {% endblock %}
 
 </head>
 
@@ -37,7 +37,7 @@
               <a class="nav-link" href="{% url 'AboutUs' %}">About Us</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'Tracker' %}">Tracker</a>
+              <a class="nav-link" href="{% url 'Tracker' %}">Navigate_Product</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'ContactUs' %}">Contact</a>
@@ -46,9 +46,10 @@
           <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
-            <button type="button" id="popcart" class="btn btn-lg btn-secondary mx-2" style="display: flex;" data-bs-html="true" data-bs-toggle="popover" title="Popover title"
-             data-bs-content="Sample" data-bs-trigger="popover" ><span class="material-icons">shopping_cart</span><span id="cart">{% if cart.total_product %}
-               ({{  cart.total_product }}){% endif %}</span></button>
+            <a href="{% url 'mycart' %}" style="text-decoration: none;"><button   type="button" id="popcart" class="btn btn-lg btn-secondary mx-2" style="display: flex;" data-bs-html="true" data-bs-toggle="popover" title="Popover title"
+             data-bs-content="Sample" data-bs-trigger="hover"><span class="material-icons">shopping_cart</span><span id="cart" style="background-color: brown;
+             width: 22px; height: 22px; font-size: 13px; border-radius: 50%; border: 2px solid gray;padding: 0px 0px 19px 0px; margin: -12px 0px 0px -9px;">{% if cart.total_product %}
+               {{  cart.total_product }}{% endif %}</span></button></a>
           </form>
         </div>
       </div>
@@ -76,6 +77,17 @@ var carousel = new bootstrap.Carousel(myCarousel, {
 })
 </script>
 <script>
+
+  function showCartCount(){
+  var x = document.getElementById('cart').textContent;
+  if( x == 0 || x == null){
+    document.getElementById('cart').style.display = "none";
+  }
+  else{
+    document.getElementById('cart').style.display = "block";
+  }
+}
+
   $(document).ready(function(){
     $(document).on("click", ".cart", function(){
       this_ele = $(this)
@@ -88,12 +100,12 @@ var carousel = new bootstrap.Carousel(myCarousel, {
 <!--popover Js-->
 <script>
 
-document.getElementById('popcart').setAttribute('data-bs-content','{% include "shop/popover.html" %}')
-document.getElementById('popcart').setAttribute('title','Cart Details')
-  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-  return new bootstrap.Popover(popoverTriggerEl)
-})
+   document.getElementById('popcart').setAttribute('data-bs-content', '{% include "shop/popover.html" %}') 
+   document.getElementById('popcart').setAttribute('title','<h5>Cart Details<h5>')
+   var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+   var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+   return new bootstrap.Popover(popoverTriggerEl)
+   }); 
 </script>
 
 

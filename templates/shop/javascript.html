@@ -1,0 +1,26 @@
+<script>
+ function cartDetails(cart_ele, cart_url){
+     product_key = cart_ele.attr("data-pk");
+     action = cart_ele.attr("data-action");
+     $.ajax({
+         url : 'cart_url',
+         type : 'json',
+         data : {'product_key' : product_key, 'action' : action},
+         success : function(CartData){
+             if(CartData['status'] == false){
+                 alert(CartData['message']); 
+             }
+             else {
+                 if(CartData['cart'] == 0){
+                     document.getElementById('popcart').setAttribute('data-bs-content', 'No Items');
+                 }
+                 else{
+                     document.getElementById('popcart').setAttribute('data-bs-content', 'CartData["product"]')
+                 }
+             }
+         }
+     })
+ }
+
+
+</script>

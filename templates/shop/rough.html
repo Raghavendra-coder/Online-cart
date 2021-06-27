@@ -1,97 +1,98 @@
 {% extends 'shop/basics.html' %}
+{% load static %}
 {% block title %}Index Page{% endblock %}
-{% block style %}{% endblock %}
+{% block style %}
+  <style>
+      .item_card{
+          border : 1px solid rgb(199, 199, 199);
+      }
+      .check_item h4{
+        background-color: rgb(226, 226, 226);
+        height: 30px;
+      }
+      .check_item img{
+          height : 200px;
+      }
+      .bill{
+          width: 100%;
+          border : 1px solid grey;
+      }
+      .bill_body, .bill_caption, .total{
+          border: 1px solid grey;
+      }
+      table{
+          width: 100%;
+      }
+      .item_details{
+          margin-top: 65px;
+      }
+  </style>
+{% endblock %}
 
 
    {% block body %}
-     {% load static %}
-<div class="container">
-  <div class="carousel slide my-3" id="demo" data-ride="carousel">
-    <ul class="carousel-indicators">
-      <li data-target="#demo" data-slide-to="0" class="active"></li>
-      {% for i in range %}
-      <li data-target="#demo" data-slide-to="{{i}}" class="active"></li>
-      {% endfor %}
-    </ul>
-
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <div class="row">
-          <div class="col-xs-3 col-sm-3 col-md-3 m-0 p-0">
-            <div class="card">
-              <img src='{% static "shop/sample.jpeg" %}' class="card-img-top" alt="Product Image" height=200 width=160>
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+   <div class="container" style="padding-top: 84px;">
+       <div class="row">
+           <div class="col-md-6">
+              <div class="check_item ">
+              {% for item in cart %}
+                <div class="item_card">
+                    
+                    <div class="item_caption text-center">
+                      <h4>{{ item.product }} </h4>
+                    </div>
+                    
+                    
+                    <div class="row my-2"> 
+                         <div class="col-md-4 col-5 item_img mx-2">
+                            <img src="{{ item.product.image.url }}">
+                         </div> 
+                         <div class="col-md-6 col-5 item_info text-center">
+                           <div class="item_details text-center">  
+                             <h5> Quantity : <span style="color: red;">{{ item.counter }}</span></h5>
+                             <h5>Price : <span style="color: green;">₹{{ item.product.price }}/-</span></h5>
+                           </div> 
+                         </div>
+                    </div>                                                                         
+                </div>
+                <br>
+                {% endfor %}
               </div>
-            </div>
-          </div>
+           </div>
+           
+           <div class="col-md-6">
+             <div class="bill text-center">
+                <div class="bill_caption my-1">
+                    <h3>Total Price</h3>
+                </div> 
+                 
+                     
+                   
 
-          {% for  i in product|slice:"1:" %}
-          <div class="col-xs-3 col-sm-3 col-md-3 p-0 m-0">
-            <div class="card">
-              <img src='{% static "shop/sample.jpeg" %}' class="card-img-top" alt="Product Image" height=200 width=160>
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-          {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last %}
-        </div> <div class="carousel-item">
-        {% endif %}
-        {% endfor %}
-      </div>
-      </div>
-    </div>
-
-
-        <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev"><b>Prev</b></button>
-        <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next"><b>Next</b></button>
-      </div>
-    </div>
-  </div>
-</div>
-
-  {% endblock %}
-
-
-<!--js for cart-->
-<script>
-  console.log("working");
-  if(localStorage.getItem('cart') == null){
-    var cart = {};
-  }
-  else{
-    cart = JSON.parse(localStorage.getItem('cart'));
-    document.getElementById('cart').innerHTML = Object.keys(cart).length;
-  }
-
-
-  $('.cart').click(function(){
-    console.log('clicked');
-    var idstr = this.id.toString();
-    console.log(idstr);
-    if(cart[idstr] != undefined){
-      cart[idstr] = cart[idstr] + 1;
-    }
-    else{
-      cart[idstr] = 1;
-    }
-    console.log(cart);
-    localStorage.setItem('cart',JSON.stringify(cart));
-    
-  });
-  //$('#popcart').popover('show')
-  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-  return new bootstrap.Popover(popoverTriggerEl);
-});
-
-document.getElementById('popcart').setAttribute('data-bs-content', '<h6><b>Cart</b></h6>');
-document.getElementById('popcart').setAttribute('title', 'kuch');
-</script>
+                       <table border="1" class="my-1">
+                           <thead>
+                               <th>S.No</th>
+                               <th>Item</th>
+                               <th>Qty</th>
+                               <th>Price</th>
+                               <th>SubTotal</th>
+                           </thead>
+                             {% for item in cart %}
+                             <tbody>
+                               <td>{{ forloop.counter }}</td>
+                               <td>{{ item.product }}</td>
+                               <td><span style="color: red;">{{ item.counter }}</span></td>
+                               <td><span style="color: green;">{{ item.product.price }}</span></td>
+                               <td>{{ item.pro_sum }}</td>
+                             </tbody>  
+                             {% endfor %}   
+                       </table>
+                  <div class="total my-1">
+                      <h3>Total Price : ₹ <span style="color: green;">{{ cart_total.pro_total }}</span>/-</h3>
+                  </div>   
+                
+             </div>  
+           </div> 
+       </div>
+   </div>
+   {% endblock %}

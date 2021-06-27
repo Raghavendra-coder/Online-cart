@@ -11,5 +11,5 @@ urlpatterns = [
     path('product/<int:myid>', views.prodView, name="prodview"),
     path("checkout", views.checkout, name="Checkout"),
     path("add_in_cart/", views.add_in_cart, name="add_in_cart"),
-    path("popover/", views.popover, name="popover"),
+    path("mycart/", views.mycart, name="mycart"),
 ]

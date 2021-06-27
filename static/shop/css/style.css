@@ -1,8 +1,11 @@
 .card{
 transition : ease 0.4s;
+border : none!important;
+outline : none!important;
 }
 .card:hover{
 border : 2px solid green!important;
+box-shadow : 0px 2px 11px 0px grey!important;
 }
 
 .image-div{
@@ -12,4 +15,7 @@ border : 2px solid green!important;
 
 .details-div{
 
+}
+#popcart{
+background-color : transparent!important;
 }

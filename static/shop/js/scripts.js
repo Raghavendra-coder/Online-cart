@@ -14,9 +14,11 @@ function UpdateCart(page_url, this_ele){
               $("#cart").text("")
             }
             else{
-              $("#cart").text("("+data['count']+")")
+              $("#cart").text(data['count'])
             }
             this_ele.parent().html(data['html'])
+            $("#popcart").attr('data-bs-content', data['html_cart'])
+            showCartCount();
 
           }
         },
@@ -26,5 +28,3 @@ function UpdateCart(page_url, this_ele){
 
       })
     }
-
-

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .models import Product, ProductCategory, Contact, Cart
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, F
 from django.template.loader import render_to_string
 from math import ceil
 from django.shortcuts import get_object_or_404
@@ -56,9 +56,14 @@ def add_in_cart(request):
                 if action == 'add':
                     Cart.objects.create(product=product)
                 counter = 1
+            cart_items = Cart.objects.all()
+            context_cart = {
+                'cart_items': cart_items,
+            }
             context = {
                 'product': product,
             }
+            html_cart = render_to_string("shop/popover.html", context=context_cart, request=request)
             html = render_to_string('shop/cart-exists.html', context=context, request=request)
             cart = Cart.objects.all().aggregate(total_product=Sum('counter'))
             cart_count = cart['total_product'] if cart['total_product'] else 0
@@ -66,6 +71,7 @@ def add_in_cart(request):
                 'status': True,
                 'count': cart_count,
                 'html': html,
+                'html_cart': html_cart,
             }
             return JsonResponse(data)
         else:
@@ -116,3 +122,11 @@ def prodView(request, myid):
 
 def checkout(request):
     return render(request, 'shop/checkout.html')
+
+
+def mycart(request):
+    cart = Cart.objects.all().annotate(pro_sum=F('counter')*F('product__price'))
+    cart_total = Cart.objects.all().annotate(pro_sum=F('counter')*F('product__price')).aggregate(pro_total=Sum('pro_sum'))
+    return render(request, 'shop/MyCart.html', {'cart': cart, 'cart_total': cart_total})
+
+
